@@ -25,13 +25,11 @@ class LisPHP
             return $env->find($symbol)[$symbol];
         } else if (! is_array($x)) {
             return $x;
-        } else {
-            if ($x[0] === 'define') {
-                $env[$x[1]] = $this->evaluate($x[2], $env);
-            } else if ($x[0] === 'quote') {
-                array_shift($x);
-                return $x;
-            }
+        } else if ($x[0] === 'define') {
+            $env[$x[1]] = $this->evaluate($x[2], $env);
+        } else if ($x[0] === 'quote') {
+            array_shift($x);
+            return $x;
         }
     }
 
