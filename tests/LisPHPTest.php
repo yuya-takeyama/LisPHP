@@ -33,6 +33,16 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function evaluate_should_return_the_value_of_variable_if_the_argument_is_string_as_a_symbol()
+    {
+        $env = new Env;
+        $env['symbol'] = 'Some value';
+        $this->assertSame('Some value', $this->lisphp->evaluate(':symbol', $env));
+    }
+
+    /**
+     * @test
+     */
     public function evaluate_defiine_function_should_define_a_variable_into_the_env()
     {
         $env = new Env;
