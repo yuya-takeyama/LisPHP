@@ -10,6 +10,11 @@
 
 require_once __DIR__ . '/LisPHP/Env.php';
 
+/**
+ * Interpreter of LisPHP.
+ *
+ * @author Yuya Takeyama
+ */
 class LisPHP
 {
     /**
@@ -40,6 +45,8 @@ class LisPHP
         $env['length'] = function ($xs) { return count($xs); };
         $env['car'] = function ($xs) { return $xs[0]; };
         $env['cdr'] = function ($xs) { array_shift($xs); return $xs; };
+        $env['print'] = function ($x) { echo $x; };
+        $env['println'] = function ($x) { echo $x, PHP_EOL; };
         return $env;
     }
 
@@ -90,6 +97,11 @@ class LisPHP
                 $args = func_get_args();
                 return $ctx->evaluate($exp, new \LisPHP\Env($vars, $args, $env));
             };
+        } else if ($x[0] === 'begin') {
+            array_shift($x);
+            foreach ($x as $exp) {
+                $this->evaluate($exp, $env);
+            }
         } else {
             $exps = [];
             foreach ($x as $i => $value) {

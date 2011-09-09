@@ -1,0 +1,9 @@
+['begin',
+  ['define', 'PI', 3.141592653],
+  ['define',
+    'area',
+    ['lambda',
+      ['r'],
+      ['*', ':PI', ['*', ':r', ':r']]]],
+  ['print', 'area(3) = '],
+  ['println', ['area', 3]]]
