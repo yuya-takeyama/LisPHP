@@ -79,7 +79,6 @@ class LisPHP
             $ctx  = $this;
             return function () use ($ctx, $exp, $vars, $env) {
                 $args = func_get_args();
-                var_dump($exp);
                 return $ctx->evaluate($exp, new \LisPHP\Env($vars, $args, $env));
             };
         } else {
