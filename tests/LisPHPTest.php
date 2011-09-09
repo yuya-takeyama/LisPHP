@@ -51,4 +51,15 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame('Some value', $env['foo']);
     }
+
+    /**
+     * @test
+     */
+    public function evaluate_quote_function_should_return_rest_of_the_S_expression_as_array()
+    {
+        $this->assertSame(
+            [1, 2, 3],
+            $this->lisphp->evaluate(['quote', 1, 2, 3])
+        );
+    }
 }

@@ -28,6 +28,9 @@ class LisPHP
         } else {
             if ($x[0] === 'define') {
                 $env[$x[1]] = $this->evaluate($x[2], $env);
+            } else if ($x[0] === 'quote') {
+                array_shift($x);
+                return $x;
             }
         }
     }
