@@ -34,6 +34,13 @@ class LisPHP
             array_shift($x);
             list($test, $conseq, $alt) = $x;
             return $this->evaluate($this->evaluate($test, $env) ? $conseq : $alt);
+        } else {
+            $exps = [];
+            foreach ($x as $i => $value) {
+                $exps[$i] = $this->evaluate($value, $env);
+            }
+            $proc = array_shift($exps);
+            return call_user_func_array($proc, $exps);
         }
     }
 
@@ -46,8 +53,7 @@ class LisPHP
     protected static function _isSymbol($input)
     {
         return is_string($input) &&
-               substr($input, 0, 1) === ':' &&
-               preg_match('/^[a-zA-Z\-_]+$/', substr($input, 1));
+               (substr($input, 0, 1) === ':' || $input === '+');
     }
 
     /**
@@ -58,6 +64,10 @@ class LisPHP
      */
     protected static function _toSymbol($input)
     {
-        return substr($input, 1);
+        if ($input === '+') {
+            return $input;
+        } else {
+            return substr($input, 1);
+        }
     }
 }
