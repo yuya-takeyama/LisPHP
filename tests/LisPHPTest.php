@@ -88,10 +88,20 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function evaluate_execute_user_defined_function()
+    public function evaluate_execute_user_defined_function_addition()
     {
         $env = new Env;
         $env['+'] = function ($x, $y) { return $x + $y; };
         $this->assertSame(3, $this->lisphp->evaluate(['+', 1, 2], $env));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_execute_user_defined_function_substaction()
+    {
+        $env = new Env;
+        $env['-'] = function ($x, $y) { return $x - $y; };
+        $this->assertSame(1, $this->lisphp->evaluate(['-', 3, 2], $env));
     }
 }

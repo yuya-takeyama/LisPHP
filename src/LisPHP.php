@@ -37,6 +37,9 @@ class LisPHP
         } else {
             $exps = [];
             foreach ($x as $i => $value) {
+                if ($i === 0) {
+                    $value = ":{$value}";
+                }
                 $exps[$i] = $this->evaluate($value, $env);
             }
             $proc = array_shift($exps);
