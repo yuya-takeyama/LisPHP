@@ -267,4 +267,18 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
                     ['+', ['fib', ['-', ':x', 2]], ['fib', ['-', ':x', 1]]]]]], $env);
         $this->assertSame(55, $this->lisphp->evaluate(['fib', 10], $env));
     }
+
+    /**
+     * @test
+     */
+    public function evaluate_begin_should_evaluate_expressions()
+    {
+        $env = LisPHP::createBaseEnv();
+        $this->lisphp->evaluate(
+          ['begin',
+            ['define', 'one', 1],
+            ['define', 'two', 2]], $env);
+        $this->assertSame(1, $env['one']);
+        $this->assertSame(2, $env['two']);
+    }
 }

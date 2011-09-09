@@ -95,6 +95,11 @@ class LisPHP
                 $args = func_get_args();
                 return $ctx->evaluate($exp, new \LisPHP\Env($vars, $args, $env));
             };
+        } else if ($x[0] === 'begin') {
+            array_shift($x);
+            foreach ($x as $exp) {
+                $this->evaluate($exp, $env);
+            }
         } else {
             $exps = [];
             foreach ($x as $i => $value) {
