@@ -25,6 +25,13 @@ class Env implements \ArrayAccess
     protected $_vars = [];
 
     /**
+     * Outer environment.
+     *
+     * @var \LisPHP\Env
+     */
+    protected $_outer;
+
+    /**
      * Constructor.
      *
      * @param  array       $params
@@ -32,7 +39,9 @@ class Env implements \ArrayAccess
      * @param  \LisPHP\Env $outer
      */
     public function __construct($params = [], $args = [], $outer = NULL)
-    {}
+    {
+        $this->_outer = $outer;
+    }
 
     /**
      * Assigns a value to a variable.
@@ -77,5 +86,27 @@ class Env implements \ArrayAccess
     public function offsetUnset($key)
     {
         unset($this->_vars[$key]);
+    }
+
+    /**
+     * Finds a env has specified variable.
+     *
+     * @param  string $key
+     * @return \LisPHP\Env
+     */
+    public function find($key)
+    {}
+
+    /**
+     * Whether it has the variable.
+     *
+     * Returns true if the variable is NULL.
+     *
+     * @param  string $key
+     * @return bool
+     */
+    public function hasVariable($key)
+    {
+        return array_key_exists($key, $this->_vars);
     }
 }
