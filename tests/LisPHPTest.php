@@ -25,9 +25,16 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function evaluate_should_be_the_string_if_the_argument_is_a_normal_string()
+    {
+        $this->assertSame("Normal string", $this->lisphp->evaluate('Normal string'));
+    }
+
+    /**
+     * @test
+     */
     public function evaluate_defiine_function_should_define_a_variable_into_the_env()
     {
-        $this->markTestIncomplete();
         $env = new Env;
         $lisphp = new LisPHP;
         $lisphp->evaluate(['define', 'foo', 'Some value'], $env);

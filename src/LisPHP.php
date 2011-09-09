@@ -20,9 +20,7 @@ class LisPHP
      */
     public function evaluate($x, $env = NULL)
     {
-        if (is_string($x)) {
-            return $env->find($x)[$x];
-        } else if (! is_array($x)) {
+        if (! is_array($x)) {
             return $x;
         } else {
             if ($x[0] === 'define') {
