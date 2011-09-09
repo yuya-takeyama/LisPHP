@@ -88,6 +88,23 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function evaluate_equal_true()
+    {
+        $this->assertTrue($this->lisphp->evaluate(['=', 1, 1]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_equal_false()
+    {
+        $this->assertFalse($this->lisphp->evaluate(['=', 1, 2]));
+        $this->assertFalse($this->lisphp->evaluate(['=', 1, '1']));
+    }
+
+    /**
+     * @test
+     */
     public function evaluate_addition()
     {
         $this->assertSame(3, $this->lisphp->evaluate(['+', 1, 2]));
@@ -120,6 +137,106 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function evaluate_less_than_true()
+    {
+        $this->assertTrue($this->lisphp->evaluate(['<', 1, 2]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_less_than_false()
+    {
+        $this->assertFalse($this->lisphp->evaluate(['<', 2, 1]));
+        $this->assertFalse($this->lisphp->evaluate(['<', 2, 2]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_less_than_or_equal_to_true()
+    {
+        $this->assertTrue($this->lisphp->evaluate(['<=', 1, 2]));
+        $this->assertTrue($this->lisphp->evaluate(['<=', 2, 2]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_less_than_or_equal_to_false()
+    {
+        $this->assertFalse($this->lisphp->evaluate(['<=', 2, 1]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_greater_than_true()
+    {
+        $this->assertTrue($this->lisphp->evaluate(['>', 2, 1]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_greater_than_false()
+    {
+        $this->assertFalse($this->lisphp->evaluate(['>', 1, 2]));
+        $this->assertFalse($this->lisphp->evaluate(['>', 2, 2]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_greater_than_or_equal_to_true()
+    {
+        $this->assertTrue($this->lisphp->evaluate(['>=', 2, 1]));
+        $this->assertTrue($this->lisphp->evaluate(['>=', 2, 2]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_greater_than_or_equal_to_false()
+    {
+        $this->assertFalse($this->lisphp->evaluate(['>=', 1, 2]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_list()
+    {
+        $this->assertSame([1, 2, 3], $this->lisphp->evaluate(['list', 1, 2, 3]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_length()
+    {
+        $this->assertSame(3, $this->lisphp->evaluate(['length', ['list', 1, 2, 3]]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_car()
+    {
+        $this->assertSame(1, $this->lisphp->evaluate(['car', ['list', 1, 2, 3]]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_cdr()
+    {
+        $this->assertSame([2, 3], $this->lisphp->evaluate(['cdr', ['list', 1, 2, 3]]));
+    }
+
+    /**
+     * @test
+     */
     public function evaluate_lambda_should_create_user_defined_function()
     {
         $env = LisPHP::createBaseEnv();
@@ -132,5 +249,22 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
             7,
             $this->lisphp->evaluate(['add', 3, 4], $env)
         );
+    }
+
+    /**
+     * @test
+     */
+    function evaluate_user_defined_fibonacci()
+    {
+        $env = LisPHP::createBaseEnv();
+        $this->lisphp->evaluate(
+            ['define', 'fib',
+              ['lambda',
+                ['x'],
+                  ['if',
+                    ['<', ':x', 2],
+                    ':x',
+                    ['+', ['fib', ['-', ':x', 2]], ['fib', ['-', ':x', 1]]]]]], $env);
+        $this->assertSame(55, $this->lisphp->evaluate(['fib', 10], $env));
     }
 }

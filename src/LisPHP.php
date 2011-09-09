@@ -27,10 +27,19 @@ class LisPHP
     public static function createBaseEnv()
     {
         $env = new \LisPHP\Env;
-        $env['+'] = function ($x, $y) { return $x + $y; };
-        $env['-'] = function ($x, $y) { return $x - $y; };
-        $env['*'] = function ($x, $y) { return $x * $y; };
-        $env['/'] = function ($x, $y) { return $x / $y; };
+        $env['=']  = function ($x, $y) { return $x === $y; };
+        $env['+']  = function ($x, $y) { return $x + $y; };
+        $env['-']  = function ($x, $y) { return $x - $y; };
+        $env['*']  = function ($x, $y) { return $x * $y; };
+        $env['/']  = function ($x, $y) { return $x / $y; };
+        $env['<']  = function ($x, $y) { return $x < $y; };
+        $env['<='] = function ($x, $y) { return $x <= $y; };
+        $env['>']  = function ($x, $y) { return $x > $y; };
+        $env['>='] = function ($x, $y) { return $x >= $y; };
+        $env['list'] = function () { return func_get_args(); };
+        $env['length'] = function ($xs) { return count($xs); };
+        $env['car'] = function ($xs) { return $xs[0]; };
+        $env['cdr'] = function ($xs) { array_shift($xs); return $xs; };
         return $env;
     }
 
@@ -72,7 +81,7 @@ class LisPHP
         } else if ($x[0] === 'if') {
             array_shift($x);
             list($test, $conseq, $alt) = $x;
-            return $this->evaluate($this->evaluate($test, $env) ? $conseq : $alt);
+            return $this->evaluate($this->evaluate($test, $env) ? $conseq : $alt, $env);
         } else if ($x[0] === 'lambda') {
             $vars = $x[1];
             $exp  = $x[2];
