@@ -20,6 +20,15 @@ class EnvTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function offsetGet_should_be_the_value_of_argument_if_it_passed()
+    {
+        $env = new Env(['key'], ['Some value']);
+        $this->assertEquals('Some value', $env['key']);
+    }
+
+    /**
+     * @test
+     */
     public function find_should_the_env_itself_if_it_has_specified_variable()
     {
         $env = new Env;

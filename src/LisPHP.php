@@ -20,18 +20,29 @@ class LisPHP
     protected static $_globalEnv;
 
     /**
-     * Gets global environment has some functions.
+     * Creates an environment has some built-in functions.
      *
      * @return \LisPHP\Env
      */
-    protected static function getGlobalEnv()
+    public static function createBaseEnv()
+    {
+        $env = new \LisPHP\Env;
+        $env['+'] = function ($x, $y) { return $x + $y; };
+        $env['-'] = function ($x, $y) { return $x - $y; };
+        $env['*'] = function ($x, $y) { return $x * $y; };
+        $env['/'] = function ($x, $y) { return $x / $y; };
+        return $env;
+    }
+
+    /**
+     * Gets global environment.
+     *
+     * @return \LisPHP\Env
+     */
+    public static function getGlobalEnv()
     {
         if (empty(self::$_globalEnv)) {
-            self::$_globalEnv = new \LisPHP\Env;
-            self::$_globalEnv['+'] = function ($x, $y) { return $x + $y; };
-            self::$_globalEnv['-'] = function ($x, $y) { return $x - $y; };
-            self::$_globalEnv['*'] = function ($x, $y) { return $x * $y; };
-            self::$_globalEnv['/'] = function ($x, $y) { return $x / $y; };
+            self::$_globalEnv = self::createBaseEnv();
         }
         return self::$_globalEnv;
     }
@@ -62,6 +73,15 @@ class LisPHP
             array_shift($x);
             list($test, $conseq, $alt) = $x;
             return $this->evaluate($this->evaluate($test, $env) ? $conseq : $alt);
+        } else if ($x[0] === 'lambda') {
+            $vars = $x[1];
+            $exp  = $x[2];
+            $ctx  = $this;
+            return function () use ($ctx, $exp, $vars, $env) {
+                $args = func_get_args();
+                var_dump($exp);
+                return $ctx->evaluate($exp, new \LisPHP\Env($vars, $args, $env));
+            };
         } else {
             $exps = [];
             foreach ($x as $i => $value) {

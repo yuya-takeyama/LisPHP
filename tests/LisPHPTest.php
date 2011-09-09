@@ -116,4 +116,21 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
     {
         $this->assertSame(5, $this->lisphp->evaluate(['/', 10, 2]));
     }
+
+    /**
+     * @test
+     */
+    public function evaluate_lambda_should_create_user_defined_function()
+    {
+        $env = LisPHP::createBaseEnv();
+        $this->lisphp->evaluate(
+            ['define', 'add',
+                ['lambda',
+                    ['x', 'y'],
+                    ['+', ':x', ':y']]], $env);
+        $this->assertSame(
+            7,
+            $this->lisphp->evaluate(['add', 3, 4], $env)
+        );
+    }
 }
