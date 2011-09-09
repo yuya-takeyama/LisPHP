@@ -98,7 +98,7 @@ class Env implements \ArrayAccess
     {
         if ($this->hasVariable($key)) {
             return $this;
-        } else if ($this->_outer->hasVariable($key)) {
+        } else if (isset($this->_outer) && $this->_outer->hasVariable($key)) {
             return $this->_outer;
         }
     }
