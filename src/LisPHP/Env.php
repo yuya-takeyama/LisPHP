@@ -15,8 +15,15 @@ namespace LisPHP;
  *
  * @author Yuya Takeyama
  */
-class Env
+class Env implements \ArrayAccess
 {
+    /**
+     * Variables the env has.
+     *
+     * @var array
+     */
+    protected $_vars = [];
+
     /**
      * Constructor.
      *
@@ -26,4 +33,49 @@ class Env
      */
     public function __construct($params = [], $args = [], $outer = NULL)
     {}
+
+    /**
+     * Assigns a value to a variable.
+     *
+     * @param  string $key
+     * @param  mixed  $value
+     * @return void
+     */
+    public function offsetSet($key, $value)
+    {
+        $this->_vars[$key] = $value;
+    }
+
+    /**
+     * Gets a value from a variable.
+     *
+     * @param  string $key
+     * @return mixed
+     */
+    public function offsetGet($key)
+    {
+        return $this->_vars[$key];
+    }
+
+    /**
+     * Whether the variable exists.
+     *
+     * @param  string $key
+     * @return bool
+     */
+    public function offsetExists($key)
+    {
+        return isset($this->_vars[$key]);
+    }
+
+    /**
+     * Unsets a variable.
+     *
+     * @param  string
+     * @return void
+     */
+    public function offsetUnset($key)
+    {
+        unset($this->_vars[$key]);
+    }
 }
