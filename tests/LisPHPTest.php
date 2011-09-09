@@ -250,4 +250,21 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
             $this->lisphp->evaluate(['add', 3, 4], $env)
         );
     }
+
+    /**
+     * @test
+     */
+    function evaluate_user_defined_fibonacci()
+    {
+        $env = LisPHP::createBaseEnv();
+        $this->lisphp->evaluate(
+            ['define', 'fib',
+              ['lambda',
+                ['x'],
+                  ['if',
+                    ['<', ':x', 2],
+                    ':x',
+                    ['+', ['fib', ['-', ':x', 2]], ['fib', ['-', ':x', 1]]]]]], $env);
+        $this->assertSame(55, $this->lisphp->evaluate(['fib', 10], $env));
+    }
 }

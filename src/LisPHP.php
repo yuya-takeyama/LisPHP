@@ -81,7 +81,7 @@ class LisPHP
         } else if ($x[0] === 'if') {
             array_shift($x);
             list($test, $conseq, $alt) = $x;
-            return $this->evaluate($this->evaluate($test, $env) ? $conseq : $alt);
+            return $this->evaluate($this->evaluate($test, $env) ? $conseq : $alt, $env);
         } else if ($x[0] === 'lambda') {
             $vars = $x[1];
             $exp  = $x[2];
