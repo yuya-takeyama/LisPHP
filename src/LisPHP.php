@@ -32,6 +32,7 @@ class LisPHP
         $env['*'] = function ($x, $y) { return $x * $y; };
         $env['/'] = function ($x, $y) { return $x / $y; };
         $env['<'] = function ($x, $y) { return $x < $y; };
+        $env['>'] = function ($x, $y) { return $x > $y; };
         return $env;
     }
 
