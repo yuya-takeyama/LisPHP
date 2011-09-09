@@ -88,6 +88,23 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function evaluate_equal_true()
+    {
+        $this->assertTrue($this->lisphp->evaluate(['=', 1, 1]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_equal_false()
+    {
+        $this->assertFalse($this->lisphp->evaluate(['=', 1, 2]));
+        $this->assertFalse($this->lisphp->evaluate(['=', 1, '1']));
+    }
+
+    /**
+     * @test
+     */
     public function evaluate_addition()
     {
         $this->assertSame(3, $this->lisphp->evaluate(['+', 1, 2]));
