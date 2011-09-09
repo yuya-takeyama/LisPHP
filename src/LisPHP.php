@@ -30,6 +30,10 @@ class LisPHP
         } else if ($x[0] === 'quote') {
             array_shift($x);
             return $x;
+        } else if ($x[0] === 'if') {
+            array_shift($x);
+            list($test, $conseq, $alt) = $x;
+            return $this->evaluate($this->evaluate($test, $env) ? $conseq : $alt);
         }
     }
 

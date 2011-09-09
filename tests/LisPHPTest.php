@@ -62,4 +62,26 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
             $this->lisphp->evaluate(['quote', 1, 2, 3])
         );
     }
+
+    /**
+     * @test
+     */
+    public function evaluate_if_function_should_return_former_expression_if_the_test_is_true()
+    {
+        $this->assertSame(
+            'Former',
+            $this->lisphp->evaluate(['if', true, 'Former', 'Latter'])
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_if_function_should_return_latter_expression_if_the_test_is_false()
+    {
+        $this->assertSame(
+            'Latter',
+            $this->lisphp->evaluate(['if', false, 'Former', 'Latter'])
+        );
+    }
 }
