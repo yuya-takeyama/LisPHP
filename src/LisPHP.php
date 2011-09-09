@@ -13,6 +13,21 @@ require_once __DIR__ . '/LisPHP/Env.php';
 class LisPHP
 {
     /**
+     * Creates global environment has some functions.
+     *
+     * @return \LisPHP\Env
+     */
+    protected static function createGlobalEnv()
+    {
+        $env = new \LisPHP\Env;
+        $env['+'] = function ($x, $y) { return $x + $y; };
+        $env['-'] = function ($x, $y) { return $x - $y; };
+        $env['*'] = function ($x, $y) { return $x * $y; };
+        $env['/'] = function ($x, $y) { return $x / $y; };
+        return $env;
+    }
+
+    /**
      * Evaluates LisPHP code.
      *
      * @param  array       $x   Something to evaluate.
@@ -20,6 +35,10 @@ class LisPHP
      */
     public function evaluate($x, $env = NULL)
     {
+        if (is_null($env)) {
+            $env = $this->createGlobalEnv();
+        }
+
         if ($this->_isSymbol($x)) {
             $symbol = $this->_toSymbol($x);
             return $env->find($symbol)[$symbol];

@@ -88,40 +88,32 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function evaluate_execute_user_defined_function_addition()
+    public function evaluate_addition()
     {
-        $env = new Env;
-        $env['+'] = function ($x, $y) { return $x + $y; };
-        $this->assertSame(3, $this->lisphp->evaluate(['+', 1, 2], $env));
+        $this->assertSame(3, $this->lisphp->evaluate(['+', 1, 2]));
     }
 
     /**
      * @test
      */
-    public function evaluate_execute_user_defined_function_substaction()
+    public function evaluate_subtraction()
     {
-        $env = new Env;
-        $env['-'] = function ($x, $y) { return $x - $y; };
-        $this->assertSame(1, $this->lisphp->evaluate(['-', 3, 2], $env));
+        $this->assertSame(1, $this->lisphp->evaluate(['-', 3, 2]));
     }
 
     /**
      * @test
      */
-    public function evaluate_execute_user_defined_function_multiplication()
+    public function evaluate_multiplication()
     {
-        $env = new Env;
-        $env['*'] = function ($x, $y) { return $x * $y; };
-        $this->assertSame(6, $this->lisphp->evaluate(['*', 2, 3], $env));
+        $this->assertSame(6, $this->lisphp->evaluate(['*', 2, 3]));
     }
 
     /**
      * @test
      */
-    public function evaluate_execute_user_defined_function_division()
+    public function evaluate_division()
     {
-        $env = new Env;
-        $env['/'] = function ($x, $y) { return $x / $y; };
-        $this->assertSame(5, $this->lisphp->evaluate(['/', 10, 2], $env));
+        $this->assertSame(5, $this->lisphp->evaluate(['/', 10, 2]));
     }
 }
