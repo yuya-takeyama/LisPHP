@@ -6,14 +6,19 @@ require_once 'LisPHP.php';
 
 $lisphp = new LisPHP;
 
-while (true) {
-    echo "lis.php > ";
-    $exp = file_get_contents('php://stdin');
-    $exp = chop($exp);
-    eval("\$result = \$lisphp->evaluate({$exp});");
-    if ($result instanceof Closure) {
-        echo "<#Lambda>", PHP_EOL;
-    } else {
-        var_dump($result);
+if (isset($argv[1])) {
+    $exp = file_get_contents($argv[1]);
+    eval("\$lisphp->evaluate({$exp});");
+} else {
+    while (true) {
+        echo "lis.php > ";
+        $exp = file_get_contents('php://stdin');
+        $exp = chop($exp);
+        eval("\$result = \$lisphp->evaluate({$exp});");
+        if ($result instanceof Closure) {
+            echo "<#Lambda>", PHP_EOL;
+        } else {
+            var_dump($result);
+        }
     }
 }
