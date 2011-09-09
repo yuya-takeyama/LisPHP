@@ -10,6 +10,11 @@
 
 require_once __DIR__ . '/LisPHP/Env.php';
 
+/**
+ * Interpreter of LisPHP.
+ *
+ * @author Yuya Takeyama
+ */
 class LisPHP
 {
     /**
