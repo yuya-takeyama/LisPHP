@@ -13,18 +13,27 @@ require_once __DIR__ . '/LisPHP/Env.php';
 class LisPHP
 {
     /**
-     * Creates global environment has some functions.
+     * Global environment.
+     *
+     * @var \LisPHP\Env
+     */
+    protected static $_globalEnv;
+
+    /**
+     * Gets global environment has some functions.
      *
      * @return \LisPHP\Env
      */
-    protected static function createGlobalEnv()
+    protected static function getGlobalEnv()
     {
-        $env = new \LisPHP\Env;
-        $env['+'] = function ($x, $y) { return $x + $y; };
-        $env['-'] = function ($x, $y) { return $x - $y; };
-        $env['*'] = function ($x, $y) { return $x * $y; };
-        $env['/'] = function ($x, $y) { return $x / $y; };
-        return $env;
+        if (empty(self::$_globalEnv)) {
+            self::$_globalEnv = new \LisPHP\Env;
+            self::$_globalEnv['+'] = function ($x, $y) { return $x + $y; };
+            self::$_globalEnv['-'] = function ($x, $y) { return $x - $y; };
+            self::$_globalEnv['*'] = function ($x, $y) { return $x * $y; };
+            self::$_globalEnv['/'] = function ($x, $y) { return $x / $y; };
+        }
+        return self::$_globalEnv;
     }
 
     /**
@@ -36,7 +45,7 @@ class LisPHP
     public function evaluate($x, $env = NULL)
     {
         if (is_null($env)) {
-            $env = $this->createGlobalEnv();
+            $env = $this->getGlobalEnv();
         }
 
         if ($this->_isSymbol($x)) {
