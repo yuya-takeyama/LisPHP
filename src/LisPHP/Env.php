@@ -41,6 +41,9 @@ class Env implements \ArrayAccess
     public function __construct($params = [], $args = [], $outer = NULL)
     {
         $this->_outer = $outer;
+        foreach ($params as $i => $value) {
+            $this[$value] = $args[$i];
+        }
     }
 
     /**

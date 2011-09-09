@@ -84,4 +84,53 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
             $this->lisphp->evaluate(['if', false, 'Former', 'Latter'])
         );
     }
+
+    /**
+     * @test
+     */
+    public function evaluate_addition()
+    {
+        $this->assertSame(3, $this->lisphp->evaluate(['+', 1, 2]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_subtraction()
+    {
+        $this->assertSame(1, $this->lisphp->evaluate(['-', 3, 2]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_multiplication()
+    {
+        $this->assertSame(6, $this->lisphp->evaluate(['*', 2, 3]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_division()
+    {
+        $this->assertSame(5, $this->lisphp->evaluate(['/', 10, 2]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_lambda_should_create_user_defined_function()
+    {
+        $env = LisPHP::createBaseEnv();
+        $this->lisphp->evaluate(
+            ['define', 'add',
+                ['lambda',
+                    ['x', 'y'],
+                    ['+', ':x', ':y']]], $env);
+        $this->assertSame(
+            7,
+            $this->lisphp->evaluate(['add', 3, 4], $env)
+        );
+    }
 }

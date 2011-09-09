@@ -13,6 +13,41 @@ require_once __DIR__ . '/LisPHP/Env.php';
 class LisPHP
 {
     /**
+     * Global environment.
+     *
+     * @var \LisPHP\Env
+     */
+    protected static $_globalEnv;
+
+    /**
+     * Creates an environment has some built-in functions.
+     *
+     * @return \LisPHP\Env
+     */
+    public static function createBaseEnv()
+    {
+        $env = new \LisPHP\Env;
+        $env['+'] = function ($x, $y) { return $x + $y; };
+        $env['-'] = function ($x, $y) { return $x - $y; };
+        $env['*'] = function ($x, $y) { return $x * $y; };
+        $env['/'] = function ($x, $y) { return $x / $y; };
+        return $env;
+    }
+
+    /**
+     * Gets global environment.
+     *
+     * @return \LisPHP\Env
+     */
+    public static function getGlobalEnv()
+    {
+        if (empty(self::$_globalEnv)) {
+            self::$_globalEnv = self::createBaseEnv();
+        }
+        return self::$_globalEnv;
+    }
+
+    /**
      * Evaluates LisPHP code.
      *
      * @param  array       $x   Something to evaluate.
@@ -20,6 +55,10 @@ class LisPHP
      */
     public function evaluate($x, $env = NULL)
     {
+        if (is_null($env)) {
+            $env = $this->getGlobalEnv();
+        }
+
         if ($this->_isSymbol($x)) {
             $symbol = $this->_toSymbol($x);
             return $env->find($symbol)[$symbol];
@@ -34,6 +73,25 @@ class LisPHP
             array_shift($x);
             list($test, $conseq, $alt) = $x;
             return $this->evaluate($this->evaluate($test, $env) ? $conseq : $alt);
+        } else if ($x[0] === 'lambda') {
+            $vars = $x[1];
+            $exp  = $x[2];
+            $ctx  = $this;
+            return function () use ($ctx, $exp, $vars, $env) {
+                $args = func_get_args();
+                var_dump($exp);
+                return $ctx->evaluate($exp, new \LisPHP\Env($vars, $args, $env));
+            };
+        } else {
+            $exps = [];
+            foreach ($x as $i => $value) {
+                if ($i === 0) {
+                    $value = ":{$value}";
+                }
+                $exps[$i] = $this->evaluate($value, $env);
+            }
+            $proc = array_shift($exps);
+            return call_user_func_array($proc, $exps);
         }
     }
 
@@ -46,8 +104,7 @@ class LisPHP
     protected static function _isSymbol($input)
     {
         return is_string($input) &&
-               substr($input, 0, 1) === ':' &&
-               preg_match('/^[a-zA-Z\-_]+$/', substr($input, 1));
+               substr($input, 0, 1) === ':';
     }
 
     /**
