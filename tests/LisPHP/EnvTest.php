@@ -20,6 +20,16 @@ class EnvTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function find_should_the_env_itself_if_it_has_specified_variable()
+    {
+        $env = new Env;
+        $env['foo'] = 'Some value';
+        $this->assertSame($env, $env->find('foo'));
+    }
+
+    /**
+     * @test
+     */
     public function find_should_return_outer_env_has_specified_variable()
     {
         $outer = new Env;
