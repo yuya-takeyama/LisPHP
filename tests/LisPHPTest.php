@@ -131,6 +131,7 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
     public function evaluate_less_than_false()
     {
         $this->assertFalse($this->lisphp->evaluate(['<', 2, 1]));
+        $this->assertFalse($this->lisphp->evaluate(['<', 2, 2]));
     }
 
     /**
@@ -164,6 +165,7 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
     public function evaluate_greater_than_false()
     {
         $this->assertFalse($this->lisphp->evaluate(['>', 1, 2]));
+        $this->assertFalse($this->lisphp->evaluate(['>', 2, 2]));
     }
 
     /**
