@@ -120,6 +120,22 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function evaluate_less_than_true()
+    {
+        $this->assertTrue($this->lisphp->evaluate(['<', 1, 2]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_less_than_false()
+    {
+        $this->assertFalse($this->lisphp->evaluate(['<', 2, 1]));
+    }
+
+    /**
+     * @test
+     */
     public function evaluate_lambda_should_create_user_defined_function()
     {
         $env = LisPHP::createBaseEnv();
