@@ -56,7 +56,7 @@ class LisPHP
     protected static function _isSymbol($input)
     {
         return is_string($input) &&
-               (substr($input, 0, 1) === ':' || $input === '+');
+               substr($input, 0, 1) === ':';
     }
 
     /**
@@ -67,10 +67,6 @@ class LisPHP
      */
     protected static function _toSymbol($input)
     {
-        if ($input === '+') {
-            return $input;
-        } else {
-            return substr($input, 1);
-        }
+        return substr($input, 1);
     }
 }
