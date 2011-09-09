@@ -100,6 +100,8 @@ class Env implements \ArrayAccess
             return $this;
         } else if (isset($this->_outer) && $this->_outer->hasVariable($key)) {
             return $this->_outer;
+        } else {
+            return NULL;
         }
     }
 

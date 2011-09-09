@@ -43,6 +43,16 @@ class EnvTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function find_should_be_NULL_if_the_specified_variable_is_not_found()
+    {
+        $outer = new Env;
+        $inner = new Env([], [], $outer);
+        $this->assertNull($inner->find('foo'));
+    }
+
+    /**
+     * @test
+     */
     public function find_should_not_fail_if_it_has_no_outer_environment()
     {
         $inner = new Env;
