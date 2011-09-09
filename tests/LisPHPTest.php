@@ -188,6 +188,38 @@ class LisPHPTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function evaluate_list()
+    {
+        $this->assertSame([1, 2, 3], $this->lisphp->evaluate(['list', 1, 2, 3]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_length()
+    {
+        $this->assertSame(3, $this->lisphp->evaluate(['length', ['list', 1, 2, 3]]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_car()
+    {
+        $this->assertSame(1, $this->lisphp->evaluate(['car', ['list', 1, 2, 3]]));
+    }
+
+    /**
+     * @test
+     */
+    public function evaluate_cdr()
+    {
+        $this->assertSame([2, 3], $this->lisphp->evaluate(['cdr', ['list', 1, 2, 3]]));
+    }
+
+    /**
+     * @test
+     */
     public function evaluate_lambda_should_create_user_defined_function()
     {
         $env = LisPHP::createBaseEnv();

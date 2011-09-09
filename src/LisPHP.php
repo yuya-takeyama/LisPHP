@@ -35,6 +35,10 @@ class LisPHP
         $env['<='] = function ($x, $y) { return $x <= $y; };
         $env['>']  = function ($x, $y) { return $x > $y; };
         $env['>='] = function ($x, $y) { return $x >= $y; };
+        $env['list'] = function () { return func_get_args(); };
+        $env['length'] = function ($xs) { return count($xs); };
+        $env['car'] = function ($xs) { return $xs[0]; };
+        $env['cdr'] = function ($xs) { array_shift($xs); return $xs; };
         return $env;
     }
 
