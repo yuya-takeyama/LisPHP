@@ -45,6 +45,8 @@ class LisPHP
         $env['length'] = function ($xs) { return count($xs); };
         $env['car'] = function ($xs) { return $xs[0]; };
         $env['cdr'] = function ($xs) { array_shift($xs); return $xs; };
+        $env['print'] = function ($x) { echo $x; };
+        $env['println'] = function ($x) { echo $x, PHP_EOL; };
         return $env;
     }
 
