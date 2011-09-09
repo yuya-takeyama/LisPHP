@@ -95,7 +95,13 @@ class Env implements \ArrayAccess
      * @return \LisPHP\Env
      */
     public function find($key)
-    {}
+    {
+        if ($this->hasVariable($key)) {
+            return $this;
+        } else if ($this->_outer->hasVariable($key)) {
+            return $this->_outer;
+        }
+    }
 
     /**
      * Whether it has the variable.

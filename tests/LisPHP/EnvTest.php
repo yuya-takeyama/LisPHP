@@ -22,7 +22,6 @@ class EnvTest extends \PHPUnit_Framework_TestCase
      */
     public function find_should_return_outer_env_has_specified_variable()
     {
-        $this->markTestIncomplete('pending');
         $outer = new Env;
         $outer['foo'] = 'Some value';
 
