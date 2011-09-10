@@ -4,6 +4,9 @@ set_include_path(__DIR__ . '/../src' . PATH_SEPARATOR . get_include_path());
 
 require_once 'LisPHP.php';
 
+echo "Welcome to REPL for LisPHP!", PHP_EOL,
+     "Input your LisPHP code and press Ctrl+D to evaluate it.", PHP_EOL, PHP_EOL;
+
 $lisphp = new LisPHP;
 
 if (isset($argv[1])) {
