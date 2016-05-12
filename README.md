@@ -7,3 +7,8 @@ Author
 ------
 
 Yuya Takeyama
+
+License
+-------
+
+[WTFPL](http://www.wtfpl.net/)
